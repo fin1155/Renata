@@ -425,6 +425,10 @@ export default function App() {
     { src: "/photos/photo8.jpg", label: "Наставничество" },
     { src: "/photos/photo9.jpg", label: "Работа с молодежью" },
     { src: "/photos/photo10.jpg", label: "Командная работа" },
+    { src: "/photos/photo11.jpg", label: "Встречи в институтах" },
+    { src: "/photos/photo12.jpg", label: "Работа с тьюторским составом" },
+    { src: "/photos/photo13.jpg", label: "Экспертная сессия" },
+    { src: "/photos/photo14.jpg", label: "СМИ и интервью" },
     { src: "/photos/school.png", label: "Школа «RUSSIA»" },
   ];
 
