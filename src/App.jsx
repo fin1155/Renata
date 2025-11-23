@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -183,6 +183,30 @@ const NavButton = ({ href, label, onClick, className = "", variant = "ghost" }) 
   );
 };
 
+const LogoMark = () => (
+  <div className="flex items-center gap-3">
+    <div className="relative">
+      <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-gradient-to-br from-[#D8B27E] via-[#C98656] to-[#7C3E2E] text-[#FAF8F5] shadow-[0_10px_30px_rgba(124,62,46,0.3)]">
+        <span className="text-lg font-semibold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>
+          RD
+        </span>
+      </div>
+      <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-semibold text-[#7C3E2E] shadow">
+        ✷
+      </div>
+    </div>
+    <div className="hidden h-10 w-px bg-gradient-to-b from-transparent via-[#D8B27E]/70 to-transparent md:block" />
+    <div className="leading-tight">
+      <div className="text-base font-semibold tracking-wide text-[#444444]" style={{ fontFamily: "'Raleway', sans-serif" }}>
+        Renata Davydova
+      </div>
+      <div className="text-xs italic text-[#7C3E2E]/80" style={{ fontFamily: "'Playfair Display', serif" }}>
+        наука · культура · воспитание
+      </div>
+    </div>
+  </div>
+);
+
 // ---------- Page Loader ----------
 const PageLoader = ({ isLoading }) => (
   <AnimatePresence>
@@ -233,9 +257,13 @@ const FadeImage = ({ className = "", onLoad, ...props }) => {
   );
 };
 
+const SUBSCRIBE_DEFAULT_IMAGE = "/photos/photo5.jpg";
+
 // ---------- Subscribe Modal ----------
 const SubscribeModal = () => {
+  const fileInputRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [imageSrc, setImageSrc] = useState(SUBSCRIBE_DEFAULT_IMAGE);
   const storageKey = "rd_subscribe_dismissed";
 
   useEffect(() => {
@@ -259,7 +287,11 @@ const SubscribeModal = () => {
       if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   const handleClose = () => {
@@ -269,6 +301,24 @@ const SubscribeModal = () => {
       // ignore
     }
     setOpen(false);
+    setImageSrc(SUBSCRIBE_DEFAULT_IMAGE);
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setImageSrc(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+    event.target.value = "";
   };
 
   return (
@@ -288,7 +338,7 @@ const SubscribeModal = () => {
             onClick={handleClose}
           />
           <motion.div
-            className="relative z-10 flex w-full max-w-4xl flex-col gap-6 rounded-[32px] border border-[#D8B27E]/40 bg-[#FAF8F5]/95 p-6 text-[#7C3E2E] shadow-[0_20px_80px_rgba(0,0,0,0.22)] md:flex-row md:items-center md:p-10 md:min-h-[70vh]"
+            className="relative z-10 flex w-full max-w-5xl flex-col gap-6 overflow-hidden rounded-[32px] border border-[#D8B27E]/40 bg-[#FAF8F5]/97 text-[#7C3E2E] shadow-[0_20px_80px_rgba(0,0,0,0.22)] md:flex-row"
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
@@ -297,11 +347,31 @@ const SubscribeModal = () => {
             <button
               aria-label="Закрыть окно подписки"
               onClick={handleClose}
-              className="absolute right-4 top-4 rounded-full bg-white/70 p-1.5 text-[#7C3E2E] shadow hover:bg-white"
+              className="absolute right-4 top-4 z-20 rounded-full bg-white/70 p-1.5 text-[#7C3E2E] shadow hover:bg-white"
             >
               <X className="h-4 w-4" />
             </button>
-            <div className="flex-1">
+            <div className="relative h-72 w-full overflow-hidden md:h-auto md:min-h-[70vh] md:w-1/2">
+              <FadeImage src={imageSrc} alt="Загруженное фото" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1F0F08]/40 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 flex flex-col gap-2">
+                <button
+                  onClick={handleUploadClick}
+                  className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-[#7C3E2E] shadow hover:bg-white"
+                >
+                  Загрузить фото
+                </button>
+                <p className="text-xs text-white/80">Поддерживаются JPG, PNG, HEIC (до 5 МБ).</p>
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </div>
+            <div className="flex flex-1 flex-col justify-center gap-6 px-6 pb-8 pt-4 md:px-10">
               <div className="flex items-center gap-3 text-[#7C3E2E]">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#D8B27E]/20">
                   <MessagesSquare className="h-6 w-6" />
@@ -313,15 +383,16 @@ const SubscribeModal = () => {
                   <p className="text-sm opacity-80">Telegram, VK и RuTube — инсайты науки и культуры прямо у вас.</p>
                 </div>
               </div>
-              <p className="mt-6 text-base leading-relaxed">
+              <p className="text-base leading-relaxed">
                 Подпишитесь, чтобы первыми узнавать о проектах, лекциях и вдохновляющих историях женского лидерства.
+                Загружайте фото прямо здесь — чтобы поделиться атмосферой вашего события.
               </p>
-              <p className="mt-3 text-xs opacity-70">Всегда можно закрыть — мы ценим ваше спокойствие.</p>
-            </div>
-            <div className="flex flex-1 flex-col gap-3 text-center">
-              <NavButton href="https://t.me/RENARUSSIA" label="Telegram" variant="filled" className="justify-center py-3 text-base" />
-              <NavButton href="https://vk.com" label="VK" className="justify-center py-3 text-base" />
-              <NavButton href="https://rutube.ru" label="RuTube" className="justify-center py-3 text-base" />
+              <p className="text-xs opacity-70">Всегда можно закрыть — мы ценим ваше спокойствие.</p>
+              <div className="flex flex-col gap-3 text-center md:flex-row">
+                <NavButton href="https://t.me/RENARUSSIA" label="Telegram" variant="filled" className="justify-center py-3 text-base" />
+                <NavButton href="https://vk.com" label="VK" className="justify-center py-3 text-base" />
+                <NavButton href="https://rutube.ru" label="RuTube" className="justify-center py-3 text-base" />
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -401,24 +472,14 @@ export default function App() {
         }`}
         style={{ fontFamily: "'Open Sans', sans-serif", scrollBehavior: "smooth" }}
       >
-      <HeadLinks />
-      <Background />
+        <HeadLinks />
+        <Background />
 
       {/* Header / Nav */}
       <header className="sticky top-0 z-40 border-b border-[#D8B27E]/40 backdrop-blur bg-[#FAF8F5]/80">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
-          <a href="#home" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#D8B27E] text-[#FAF8F5] shadow-md">
-              <span className="text-lg font-semibold" style={{ fontFamily: "'Playfair Display', serif" }}>RD</span>
-            </div>
-            <div className="leading-tight">
-              <div className="text-base font-semibold tracking-wide" style={{ fontFamily: "'Raleway', sans-serif" }}>
-                Renata Davydova
-              </div>
-              <div className="text-xs italic opacity-80" style={{ fontFamily: "'Playfair Display', serif" }}>
-                наука · культура · воспитание
-              </div>
-            </div>
+          <a href="#home" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
+            <LogoMark />
           </a>
           <nav className="hidden gap-4 md:flex flex-wrap">
             {navItems.map(([label, href]) => (
@@ -756,15 +817,7 @@ export default function App() {
       <footer className="border-t border-[#D8B27E]/40 bg-[#FAF8F5]/80">
         <div className="mx-auto w-full max-w-6xl px-4 py-10">
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D8B27E] text-[#FAF8F5] shadow-md">
-                <span className="text-sm font-semibold" style={{ fontFamily: "'Playfair Display', serif" }}>RD</span>
-              </div>
-              <div>
-                <div className="text-sm font-semibold" style={{ fontFamily: "'Raleway', sans-serif" }}>Renata Davydova</div>
-                <div className="text-xs italic opacity-80" style={{ fontFamily: "'Playfair Display', serif" }}>разум · сердце · дух</div>
-              </div>
-            </div>
+            <LogoMark />
             <nav className="flex flex-wrap gap-4 text-sm" style={{ fontFamily: "'Raleway', sans-serif" }}>
               <a href="#about" className="hover:text-[#7C3E2E]">Обо мне</a>
               <a href="#science" className="hover:text-[#7C3E2E]">Наука</a>
@@ -781,8 +834,8 @@ export default function App() {
           </div>
         </div>
       </footer>
-        <SubscribeModal />
       </div>
+      <SubscribeModal />
     </>
   );
 }
