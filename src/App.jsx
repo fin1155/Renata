@@ -248,7 +248,7 @@ const SubscribeModal = () => {
       }
     };
     if (shouldShow()) {
-      timer = setTimeout(() => setOpen(true), 4000);
+      timer = setTimeout(() => setOpen(true), 5000);
     }
     return () => clearTimeout(timer);
   }, []);
@@ -275,35 +275,55 @@ const SubscribeModal = () => {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed bottom-4 right-4 z-40 w-[calc(100%-2rem)] max-w-sm rounded-3xl border border-[#D8B27E]/40 bg-[#FAF8F5]/95 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur"
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 40, scale: 0.95 }}
-          transition={{ duration: 0.4 }}
+          className="fixed inset-0 z-40 flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
         >
-          <button
-            aria-label="Закрыть окно подписки"
+          <motion.div
+            className="absolute inset-0 bg-[#1F0F08]/30 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="absolute right-3 top-3 rounded-full bg-white/70 p-1 text-[#7C3E2E] shadow hover:bg-white"
+          />
+          <motion.div
+            className="relative z-10 flex w-full max-w-4xl flex-col gap-6 rounded-[32px] border border-[#D8B27E]/40 bg-[#FAF8F5]/95 p-6 text-[#7C3E2E] shadow-[0_20px_80px_rgba(0,0,0,0.22)] md:flex-row md:items-center md:p-10 md:min-h-[70vh]"
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+            transition={{ duration: 0.4 }}
           >
-            <X className="h-4 w-4" />
-          </button>
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#D8B27E]/20 text-[#7C3E2E]">
-              <MessagesSquare className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-[#7C3E2E]" style={{ fontFamily: "'Raleway', sans-serif" }}>
-                Присоединяйтесь к сообществу
+            <button
+              aria-label="Закрыть окно подписки"
+              onClick={handleClose}
+              className="absolute right-4 top-4 rounded-full bg-white/70 p-1.5 text-[#7C3E2E] shadow hover:bg-white"
+            >
+              <X className="h-4 w-4" />
+            </button>
+            <div className="flex-1">
+              <div className="flex items-center gap-3 text-[#7C3E2E]">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#D8B27E]/20">
+                  <MessagesSquare className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-lg font-semibold" style={{ fontFamily: "'Raleway', sans-serif" }}>
+                    Будем на связи?
+                  </p>
+                  <p className="text-sm opacity-80">Telegram, VK и RuTube — инсайты науки и культуры прямо у вас.</p>
+                </div>
+              </div>
+              <p className="mt-6 text-base leading-relaxed">
+                Подпишитесь, чтобы первыми узнавать о проектах, лекциях и вдохновляющих историях женского лидерства.
               </p>
-              <p className="text-xs text-[#7C3E2E]/70">Инсайты науки, культуры и женственности — в соцсетях.</p>
+              <p className="mt-3 text-xs opacity-70">Всегда можно закрыть — мы ценим ваше спокойствие.</p>
             </div>
-          </div>
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-            <NavButton href="https://t.me/RENARUSSIA" label="Telegram" variant="filled" className="justify-center" />
-            <NavButton href="https://vk.com" label="VK" className="justify-center" />
-          </div>
-          <p className="mt-3 text-[11px] text-[#7C3E2E]/60">Любое время можно закрыть — и продолжить знакомство с сайтом.</p>
+            <div className="flex flex-1 flex-col gap-3 text-center">
+              <NavButton href="https://t.me/RENARUSSIA" label="Telegram" variant="filled" className="justify-center py-3 text-base" />
+              <NavButton href="https://vk.com" label="VK" className="justify-center py-3 text-base" />
+              <NavButton href="https://rutube.ru" label="RuTube" className="justify-center py-3 text-base" />
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
