@@ -162,17 +162,26 @@ const ValueChip = ({ children }) => (
 );
 
 // ---------- Floating nav button ----------
-const NavButton = ({ href, label, onClick, className = "" }) => (
-  <a
-    href={href}
-    onClick={onClick}
-    className={`relative inline-flex items-center justify-center rounded-full border border-[#D8B27E]/40 bg-white/80 px-4 py-2 text-sm font-semibold text-[#7C3E2E] shadow-[0_6px_18px_rgba(124,62,46,0.18)] transition-all hover:-translate-y-0.5 hover:bg-[#FAF8F5] hover:shadow-[0_12px_28px_rgba(124,62,46,0.2)] ${className}`}
-    style={{ fontFamily: "'Raleway', sans-serif" }}
-  >
-    <span className="relative z-10">{label}</span>
-    <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-transparent via-transparent to-[#D8B27E]/10 opacity-80" />
-  </a>
-);
+const NavButton = ({ href, label, onClick, className = "", variant = "ghost" }) => {
+  const base =
+    "relative inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold transition-all hover:-translate-y-0.5";
+  const ghost =
+    "border border-[#D8B27E]/40 bg-white/80 text-[#7C3E2E] shadow-[0_6px_18px_rgba(124,62,46,0.18)] hover:bg-[#FAF8F5] hover:shadow-[0_12px_28px_rgba(124,62,46,0.2)]";
+  const filled =
+    "border border-[#D8B27E] bg-[#D8B27E] text-[#FAF8F5] shadow-[0_8px_20px_rgba(216,178,126,0.4)] hover:bg-[#c49a62] hover:shadow-[0_14px_30px_rgba(124,62,46,0.3)]";
+
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      className={`${base} ${variant === "filled" ? filled : ghost} ${className}`}
+      style={{ fontFamily: "'Raleway', sans-serif" }}
+    >
+      <span className="relative z-10">{label}</span>
+      <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-transparent via-transparent to-black/10 opacity-70" />
+    </a>
+  );
+};
 
 // ---------- Card ----------
 const Card = ({ children, className = "" }) => (
@@ -243,9 +252,9 @@ export default function App() {
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            <a href="#contact" className="hidden md:inline-block rounded-full bg-[#D8B27E] px-4 py-2 text-sm font-semibold text-[#FAF8F5] shadow hover:shadow-md active:scale-[0.98] transition-all">
-              Связаться
-            </a>
+            <div className="hidden md:inline-block">
+              <NavButton href="#contact" label="Связаться" variant="filled" />
+            </div>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 rounded-lg hover:bg-[#EFD8D0]/30 transition-colors"
@@ -278,13 +287,15 @@ export default function App() {
                     />
                   ))}
                 </div>
-                <a
-                  href="#contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block mt-4 mx-4 text-center rounded-full bg-[#D8B27E] px-4 py-2 text-sm font-semibold text-[#FAF8F5] shadow"
-                >
-                  Связаться
-                </a>
+                <div className="px-4">
+                  <NavButton
+                    href="#contact"
+                    label="Связаться"
+                    variant="filled"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full justify-center"
+                  />
+                </div>
               </nav>
             </motion.div>
           )}
