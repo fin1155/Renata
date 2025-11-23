@@ -161,6 +161,19 @@ const ValueChip = ({ children }) => (
   </span>
 );
 
+// ---------- Floating nav button ----------
+const NavButton = ({ href, label, onClick, className = "" }) => (
+  <a
+    href={href}
+    onClick={onClick}
+    className={`relative inline-flex items-center justify-center rounded-full border border-[#D8B27E]/40 bg-white/80 px-4 py-2 text-sm font-semibold text-[#7C3E2E] shadow-[0_6px_18px_rgba(124,62,46,0.18)] transition-all hover:-translate-y-0.5 hover:bg-[#FAF8F5] hover:shadow-[0_12px_28px_rgba(124,62,46,0.2)] ${className}`}
+    style={{ fontFamily: "'Raleway', sans-serif" }}
+  >
+    <span className="relative z-10">{label}</span>
+    <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-transparent via-transparent to-[#D8B27E]/10 opacity-80" />
+  </a>
+);
+
 // ---------- Card ----------
 const Card = ({ children, className = "" }) => (
   <motion.div
@@ -224,11 +237,9 @@ export default function App() {
               </div>
             </div>
           </a>
-          <nav className="hidden gap-6 md:flex" style={{ fontFamily: "'Raleway', sans-serif" }}>
+          <nav className="hidden gap-4 md:flex flex-wrap">
             {navItems.map(([label, href]) => (
-              <a key={href} href={`#${href}`} className="text-sm hover:text-[#7C3E2E] transition-colors">
-                {label}
-              </a>
+              <NavButton key={href} href={`#${href}`} label={label} />
             ))}
           </nav>
           <div className="flex items-center gap-3">
@@ -255,17 +266,18 @@ export default function App() {
               transition={{ duration: 0.3 }}
               className="md:hidden border-t border-[#D8B27E]/40 bg-[#FAF8F5]/95 backdrop-blur"
             >
-              <nav className="px-4 py-4 space-y-2" style={{ fontFamily: "'Raleway', sans-serif" }}>
-                {navItems.map(([label, href]) => (
-                  <a
-                    key={href}
-                    href={`#${href}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-4 py-2 rounded-lg text-sm hover:bg-[#EFD8D0]/30 hover:text-[#7C3E2E] transition-colors"
-                  >
-                    {label}
-                  </a>
-                ))}
+              <nav className="px-4 py-4 space-y-2">
+                <div className="grid gap-3">
+                  {navItems.map(([label, href]) => (
+                    <NavButton
+                      key={href}
+                      href={`#${href}`}
+                      label={label}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="w-full justify-center"
+                    />
+                  ))}
+                </div>
                 <a
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
