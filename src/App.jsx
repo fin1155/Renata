@@ -183,6 +183,133 @@ const NavButton = ({ href, label, onClick, className = "", variant = "ghost" }) 
   );
 };
 
+// ---------- Page Loader ----------
+const PageLoader = ({ isLoading }) => (
+  <AnimatePresence>
+    {isLoading && (
+      <motion.div
+        className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#FAF8F5]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.div
+          className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-[#D8B27E]/30"
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+        >
+          <motion.div
+            className="h-16 w-16 rounded-full border-4 border-[#D8B27E]/40 border-t-[#7C3E2E]"
+            animate={{ rotate: -360 }}
+            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+          />
+        </motion.div>
+        <motion.p
+          className="mt-6 text-sm uppercase tracking-[0.3em] text-[#7C3E2E]"
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          style={{ fontFamily: "'Raleway', sans-serif" }}
+        >
+          Загружаем вдохновение
+        </motion.p>
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
+
+// ---------- Fade Image ----------
+const FadeImage = ({ className = "", onLoad, ...props }) => {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <img
+      {...props}
+      onLoad={(e) => {
+        setLoaded(true);
+        if (onLoad) onLoad(e);
+      }}
+      className={`transition-opacity duration-700 ease-out ${loaded ? "opacity-100" : "opacity-0"} ${className}`}
+    />
+  );
+};
+
+// ---------- Subscribe Modal ----------
+const SubscribeModal = () => {
+  const [open, setOpen] = useState(false);
+  const storageKey = "rd_subscribe_dismissed";
+
+  useEffect(() => {
+    let timer;
+    const shouldShow = () => {
+      try {
+        return localStorage.getItem(storageKey) !== "1";
+      } catch (err) {
+        return true;
+      }
+    };
+    if (shouldShow()) {
+      timer = setTimeout(() => setOpen(true), 4000);
+    }
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [open]);
+
+  const handleClose = () => {
+    try {
+      localStorage.setItem(storageKey, "1");
+    } catch (err) {
+      // ignore
+    }
+    setOpen(false);
+  };
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="fixed bottom-4 right-4 z-40 w-[calc(100%-2rem)] max-w-sm rounded-3xl border border-[#D8B27E]/40 bg-[#FAF8F5]/95 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur"
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 40, scale: 0.95 }}
+          transition={{ duration: 0.4 }}
+        >
+          <button
+            aria-label="Закрыть окно подписки"
+            onClick={handleClose}
+            className="absolute right-3 top-3 rounded-full bg-white/70 p-1 text-[#7C3E2E] shadow hover:bg-white"
+          >
+            <X className="h-4 w-4" />
+          </button>
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#D8B27E]/20 text-[#7C3E2E]">
+              <MessagesSquare className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-[#7C3E2E]" style={{ fontFamily: "'Raleway', sans-serif" }}>
+                Присоединяйтесь к сообществу
+              </p>
+              <p className="text-xs text-[#7C3E2E]/70">Инсайты науки, культуры и женственности — в соцсетях.</p>
+            </div>
+          </div>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+            <NavButton href="https://t.me/RENARUSSIA" label="Telegram" variant="filled" className="justify-center" />
+            <NavButton href="https://vk.com" label="VK" className="justify-center" />
+          </div>
+          <p className="mt-3 text-[11px] text-[#7C3E2E]/60">Любое время можно закрыть — и продолжить знакомство с сайтом.</p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 // ---------- Card ----------
 const Card = ({ children, className = "" }) => (
   <motion.div
@@ -197,6 +324,8 @@ const Card = ({ children, className = "" }) => (
 export default function App() {
   const year = useMemo(() => new Date().getFullYear(), []);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [contentReady, setContentReady] = useState(false);
 
   const navItems = [
     ["Обо мне", "about"],
@@ -209,6 +338,24 @@ export default function App() {
     ["Фото", "gallery"],
     ["Обратная связь", "contact"],
   ];
+
+  useEffect(() => {
+    const finishLoading = () => {
+      setContentReady(true);
+      setTimeout(() => setIsLoading(false), 500);
+    };
+
+    if (document.readyState === "complete") {
+      finishLoading();
+    } else {
+      window.addEventListener("load", finishLoading);
+    }
+    const timer = setTimeout(finishLoading, 2500);
+    return () => {
+      window.removeEventListener("load", finishLoading);
+      clearTimeout(timer);
+    };
+  }, []);
 
   const galleryPhotos = [
     { src: "/photos/hero.jpg", label: "Портрет" },
@@ -226,7 +373,14 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen text-[#444444]" style={{ fontFamily: "'Open Sans', sans-serif", scrollBehavior: "smooth" }}>
+    <>
+      <PageLoader isLoading={isLoading} />
+      <div
+        className={`min-h-screen text-[#444444] transition-all duration-700 ${
+          contentReady ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-sm pointer-events-none"
+        }`}
+        style={{ fontFamily: "'Open Sans', sans-serif", scrollBehavior: "smooth" }}
+      >
       <HeadLinks />
       <Background />
 
@@ -332,7 +486,7 @@ export default function App() {
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
             <Card className="relative overflow-hidden p-0">
               <div className="relative h-full">
-                <img src="/photos/hero.jpg" alt="Рената Давыдова" className="h-80 w-full object-cover md:h-[440px]" />
+                <FadeImage src="/photos/hero.jpg" alt="Рената Давыдова" className="h-80 w-full object-cover md:h-[440px]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2B1B12]/70 via-[#2B1B12]/35 to-transparent" />
                 <div className="absolute bottom-0 p-6 text-[#FAF8F5]">
                   <p className="text-lg leading-relaxed drop-shadow" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
@@ -534,7 +688,7 @@ export default function App() {
               }}
               className="group relative overflow-hidden rounded-2xl border border-[#D8B27E]/50 bg-white/70 shadow-[0_6px_24px_rgba(0,0,0,0.06)]"
             >
-              <img src={src} alt={label} className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+              <FadeImage src={src} alt={label} className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#2B1B12]/60 via-transparent to-transparent opacity-60" />
               <div className="absolute bottom-3 left-3 rounded-full bg-[#FAF8F5]/90 px-3 py-1 text-xs font-semibold text-[#7C3E2E] shadow">
                 {label}
@@ -607,6 +761,8 @@ export default function App() {
           </div>
         </div>
       </footer>
-    </div>
+        <SubscribeModal />
+      </div>
+    </>
   );
 }
