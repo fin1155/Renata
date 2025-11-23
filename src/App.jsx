@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -257,13 +257,9 @@ const FadeImage = ({ className = "", onLoad, ...props }) => {
   );
 };
 
-const SUBSCRIBE_DEFAULT_IMAGE = "/photos/photo5.jpg";
-
 // ---------- Subscribe Modal ----------
 const SubscribeModal = () => {
-  const fileInputRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState(SUBSCRIBE_DEFAULT_IMAGE);
   const storageKey = "rd_subscribe_dismissed";
 
   useEffect(() => {
@@ -301,24 +297,6 @@ const SubscribeModal = () => {
       // ignore
     }
     setOpen(false);
-    setImageSrc(SUBSCRIBE_DEFAULT_IMAGE);
-  };
-
-  const handleUploadClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        setImageSrc(reader.result);
-      }
-    };
-    reader.readAsDataURL(file);
-    event.target.value = "";
   };
 
   return (
@@ -352,24 +330,11 @@ const SubscribeModal = () => {
               <X className="h-4 w-4" />
             </button>
             <div className="relative h-72 w-full overflow-hidden md:h-auto md:min-h-[70vh] md:w-1/2">
-              <FadeImage src={imageSrc} alt="Загруженное фото" className="h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1F0F08]/40 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 flex flex-col gap-2">
-                <button
-                  onClick={handleUploadClick}
-                  className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-[#7C3E2E] shadow hover:bg-white"
-                >
-                  Загрузить фото
-                </button>
-                <p className="text-xs text-white/80">Поддерживаются JPG, PNG, HEIC (до 5 МБ).</p>
-              </div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+              <FadeImage src="/photos/photo5.jpg" alt="RENARUSSIA community" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1F0F08]/45 via-transparent to-transparent" />
+              <p className="absolute bottom-4 left-4 text-xs uppercase tracking-[0.3em] text-white/80">
+                RENARUSSIA · COMMUNITY
+              </p>
             </div>
             <div className="flex flex-1 flex-col justify-center gap-6 px-6 pb-8 pt-4 md:px-10">
               <div className="flex items-center gap-3 text-[#7C3E2E]">
@@ -384,8 +349,8 @@ const SubscribeModal = () => {
                 </div>
               </div>
               <p className="text-base leading-relaxed">
-                Подпишитесь, чтобы первыми узнавать о проектах, лекциях и вдохновляющих историях женского лидерства.
-                Загружайте фото прямо здесь — чтобы поделиться атмосферой вашего события.
+                Подпишитесь, чтобы первыми узнавать о проектах, лекциях и вдохновляющих историях женского лидерства. Культура,
+                женственность и наука — в одном канале.
               </p>
               <p className="text-xs opacity-70">Всегда можно закрыть — мы ценим ваше спокойствие.</p>
               <div className="flex flex-col gap-3 text-center md:flex-row">
