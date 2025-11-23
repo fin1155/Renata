@@ -330,7 +330,7 @@ const SubscribeModal = () => {
               <X className="h-4 w-4" />
             </button>
             <div className="relative h-72 w-full overflow-hidden md:h-auto md:min-h-[70vh] md:w-1/2">
-              <FadeImage src="/photos/photo5.jpg" alt="RENARUSSIA community" className="h-full w-full object-cover" />
+              <FadeImage src="/photos/photo5.webp" alt="RENARUSSIA community" className="h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1F0F08]/45 via-transparent to-transparent" />
               <p className="absolute bottom-4 left-4 text-xs uppercase tracking-[0.3em] text-white/80">
                 RENARUSSIA · COMMUNITY
@@ -414,22 +414,22 @@ export default function App() {
   }, []);
 
   const galleryPhotos = [
-    { src: "/photos/hero.jpg", label: "Портрет" },
-    { src: "/photos/photo1.jpg", label: "Научный форум" },
-    { src: "/photos/photo2.jpg", label: "Образовательный проект" },
-    { src: "/photos/photo3.jpg", label: "Выступление" },
-    { src: "/photos/photo4.jpg", label: "Общение с участниками" },
-    { src: "/photos/photo5.jpg", label: "Культурная встреча" },
-    { src: "/photos/photo6.jpg", label: "Совместный проект" },
-    { src: "/photos/photo7.jpg", label: "Организация событий" },
-    { src: "/photos/photo8.jpg", label: "Наставничество" },
-    { src: "/photos/photo9.jpg", label: "Работа с молодежью" },
-    { src: "/photos/photo10.jpg", label: "Командная работа" },
-    { src: "/photos/photo11.jpg", label: "Встречи в институтах" },
-    { src: "/photos/photo12.jpg", label: "Работа с тьюторским составом" },
-    { src: "/photos/photo13.jpg", label: "Экспертная сессия" },
-    { src: "/photos/photo14.jpg", label: "СМИ и интервью" },
-    { src: "/photos/school.png", label: "Школа «RUSSIA»" },
+    { src: "/photos/hero.webp", label: "Портрет" },
+    { src: "/photos/photo1.webp", label: "Научный форум" },
+    { src: "/photos/photo2.webp", label: "Образовательный проект" },
+    { src: "/photos/photo3.webp", label: "Выступление" },
+    { src: "/photos/photo4.webp", label: "Общение с участниками" },
+    { src: "/photos/photo5.webp", label: "Культурная встреча" },
+    { src: "/photos/photo6.webp", label: "Совместный проект" },
+    { src: "/photos/photo7.webp", label: "Организация событий" },
+    { src: "/photos/photo8.webp", label: "Наставничество" },
+    { src: "/photos/photo9.webp", label: "Работа с молодежью" },
+    { src: "/photos/photo10.webp", label: "Командная работа" },
+    { src: "/photos/photo11.webp", label: "Встречи в институтах" },
+    { src: "/photos/photo12.webp", label: "Работа с тьюторским составом" },
+    { src: "/photos/photo13.webp", label: "Экспертная сессия" },
+    { src: "/photos/photo14.webp", label: "СМИ и интервью" },
+    { src: "/photos/school.webp", label: "Школа «RUSSIA»" },
   ];
 
   return (
@@ -536,7 +536,7 @@ export default function App() {
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
             <Card className="relative overflow-hidden p-0">
               <div className="relative h-full">
-                <FadeImage src="/photos/hero.jpg" alt="Рената Давыдова" className="h-80 w-full object-cover md:h-[440px]" />
+              <FadeImage src="/photos/hero.webp" alt="Рената Давыдова" className="h-80 w-full object-cover md:h-[440px]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2B1B12]/70 via-[#2B1B12]/35 to-transparent" />
                 <div className="absolute bottom-0 p-6 text-[#FAF8F5]">
                   <p className="text-lg leading-relaxed drop-shadow" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
