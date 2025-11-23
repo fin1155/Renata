@@ -184,7 +184,23 @@ export default function App() {
     ["Культура и женственность", "culture"],
     ["Медиа", "media"],
     ["@RENARUSSIA", "renarussia"],
+    ["Фото", "gallery"],
     ["Обратная связь", "contact"],
+  ];
+
+  const galleryPhotos = [
+    { src: "/photos/hero.jpg", label: "Портрет" },
+    { src: "/photos/photo1.jpg", label: "Научный форум" },
+    { src: "/photos/photo2.jpg", label: "Образовательный проект" },
+    { src: "/photos/photo3.jpg", label: "Выступление" },
+    { src: "/photos/photo4.jpg", label: "Общение с участниками" },
+    { src: "/photos/photo5.jpg", label: "Культурная встреча" },
+    { src: "/photos/photo6.jpg", label: "Совместный проект" },
+    { src: "/photos/photo7.jpg", label: "Организация событий" },
+    { src: "/photos/photo8.jpg", label: "Наставничество" },
+    { src: "/photos/photo9.jpg", label: "Работа с молодежью" },
+    { src: "/photos/photo10.jpg", label: "Командная работа" },
+    { src: "/photos/school.png", label: "Школа «RUSSIA»" },
   ];
 
   return (
@@ -291,17 +307,19 @@ export default function App() {
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
-            <Card className="relative overflow-hidden">
-              <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-[#D8B27E]/20 blur-3xl" />
-              <div className="absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-[#EFD8D0]/40 blur-2xl" />
-              <div className="relative">
-                <p className="text-lg leading-relaxed" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
-                  «Свет знания зажигается там, где встречаются разум, сердце и дух. Моя цель — соединять науку и культуру, чтобы воспитывать новое поколение созидателей».
-                </p>
-                <div className="mt-6 flex flex-wrap gap-4 text-sm" style={{ fontFamily: "'Raleway', sans-serif" }}>
-                  <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4"/> Лидер новых инициатив</span>
-                  <span className="inline-flex items-center gap-2"><FlaskConical className="h-4 w-4"/> Молодой учёный</span>
-                  <span className="inline-flex items-center gap-2"><GraduationCap className="h-4 w-4"/> Наставник молодёжи</span>
+            <Card className="relative overflow-hidden p-0">
+              <div className="relative h-full">
+                <img src="/photos/hero.jpg" alt="Рената Давыдова" className="h-80 w-full object-cover md:h-[440px]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2B1B12]/70 via-[#2B1B12]/35 to-transparent" />
+                <div className="absolute bottom-0 p-6 text-[#FAF8F5]">
+                  <p className="text-lg leading-relaxed drop-shadow" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
+                    «Свет знания зажигается там, где встречаются разум, сердце и дух. Моя цель — соединять науку и культуру, чтобы воспитывать новое поколение созидателей».
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-4 text-sm" style={{ fontFamily: "'Raleway', sans-serif" }}>
+                    <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4"/> Лидер новых инициатив</span>
+                    <span className="inline-flex items-center gap-2"><FlaskConical className="h-4 w-4"/> Молодой учёный</span>
+                    <span className="inline-flex items-center gap-2"><GraduationCap className="h-4 w-4"/> Наставник молодёжи</span>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -476,6 +494,31 @@ export default function App() {
             <MessagesSquare className="h-4 w-4"/> Перейти в Telegram-канал
           </a>
         </Card>
+      </Section>
+
+      {/* Gallery */}
+      <Section id="gallery" title="Фотоархив" subtitle="Свежие кадры с мероприятий, лекций и встреч">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {galleryPhotos.map(({ src, label }, idx) => (
+            <motion.div
+              key={src}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={{
+                hidden: { opacity: 0, y: 24 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: idx * 0.03 } },
+              }}
+              className="group relative overflow-hidden rounded-2xl border border-[#D8B27E]/50 bg-white/70 shadow-[0_6px_24px_rgba(0,0,0,0.06)]"
+            >
+              <img src={src} alt={label} className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#2B1B12]/60 via-transparent to-transparent opacity-60" />
+              <div className="absolute bottom-3 left-3 rounded-full bg-[#FAF8F5]/90 px-3 py-1 text-xs font-semibold text-[#7C3E2E] shadow">
+                {label}
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </Section>
 
       {/* Contact */}
