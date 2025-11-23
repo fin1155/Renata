@@ -186,12 +186,15 @@ const NavButton = ({ href, label, onClick, className = "", variant = "ghost" }) 
 const LogoMark = () => (
   <div className="flex items-center gap-3">
     <div className="relative">
-      <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-gradient-to-br from-[#D8B27E] via-[#C98656] to-[#7C3E2E] text-[#FAF8F5] shadow-[0_10px_30px_rgba(124,62,46,0.3)]">
-        <span className="text-lg font-semibold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>
-          RD
-        </span>
+      <div className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-white/90 shadow-[0_12px_30px_rgba(0,0,0,0.12)]">
+        <img
+          src="/photos/logo.png"
+          alt="Renata Davydova"
+          className="h-10 w-10 object-contain"
+          loading="lazy"
+        />
       </div>
-      <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-semibold text-[#7C3E2E] shadow">
+      <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#D8B27E] text-[10px] font-semibold text-white shadow">
         ✷
       </div>
     </div>
