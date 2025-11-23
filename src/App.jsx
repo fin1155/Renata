@@ -210,6 +210,28 @@ const LogoMark = () => (
   </div>
 );
 
+const PhotoShowcase = ({ photos }) => (
+  <div className="grid gap-4 md:grid-cols-3">
+    {photos.map(({ src, caption }, idx) => (
+      <motion.div
+        key={src}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.4, delay: idx * 0.05 }}
+        className="group relative overflow-hidden rounded-3xl border border-[#D8B27E]/40 bg-white/60 shadow-[0_10px_35px_rgba(0,0,0,0.08)]"
+      >
+        <FadeImage src={src} alt={caption} className="h-64 w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1F0F08]/80 via-[#1F0F08]/30 to-transparent p-4 text-[#FAF8F5]">
+          <p className="text-sm font-semibold" style={{ fontFamily: "'Raleway', sans-serif" }}>
+            {caption}
+          </p>
+        </div>
+      </motion.div>
+    ))}
+  </div>
+);
+
 // ---------- Page Loader ----------
 const PageLoader = ({ isLoading }) => (
   <AnimatePresence>
@@ -416,6 +438,15 @@ export default function App() {
     };
   }, []);
 
+  const highlightPhotos = [
+    { src: "/photos/hero.webp", caption: "Лекции и встречи для молодёжи РАН" },
+    { src: "/photos/photo1.webp", caption: "Экспедиция «Путь в науку»" },
+    { src: "/photos/photo3.webp", caption: "Интеллектуальные практики для школьников" },
+    { src: "/photos/photo7.webp", caption: "Дискуссии с наставниками" },
+    { src: "/photos/photo10.webp", caption: "Торжественные церемонии и награды" },
+    { src: "/photos/photo13.webp", caption: "Медиа сопровождение и эфиры" },
+  ];
+
   const galleryPhotos = [
     { src: "/photos/hero.webp", label: "Портрет" },
     { src: "/photos/photo1.webp", label: "Научный форум" },
@@ -556,6 +587,11 @@ export default function App() {
           </motion.div>
         </div>
       </section>
+
+      {/* Highlights */}
+      <Section id="highlights" title="Живые моменты" subtitle="Реальные кадры проектов Ренаты Давыдовой — от лекций РАН до культурных резиденций.">
+        <PhotoShowcase photos={highlightPhotos} />
+      </Section>
 
       {/* About */}
       <Section id="about" title="Обо мне" subtitle="Биография, образование, общественная и научная деятельность">
