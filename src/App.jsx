@@ -162,9 +162,15 @@ const ValueChip = ({ children }) => (
 );
 
 // ---------- Floating nav button ----------
-const NavButton = ({ href, label, onClick, className = "", variant = "ghost" }) => {
+const NavButton = ({ href, label, onClick, className = "", variant = "ghost", size = "default" }) => {
+  const sizeClasses =
+    size === "compact"
+      ? "px-3 py-1.5 text-xs"
+      : size === "large"
+      ? "px-5 py-2 text-base"
+      : "px-4 py-2 text-sm";
   const base =
-    "relative inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold transition-all hover:-translate-y-0.5";
+    "relative inline-flex items-center justify-center rounded-full font-semibold transition-all hover:-translate-y-0.5";
   const ghost =
     "border border-[#D8B27E]/40 bg-white/80 text-[#7C3E2E] shadow-[0_6px_18px_rgba(124,62,46,0.18)] hover:bg-[#FAF8F5] hover:shadow-[0_12px_28px_rgba(124,62,46,0.2)]";
   const filled =
@@ -174,7 +180,7 @@ const NavButton = ({ href, label, onClick, className = "", variant = "ghost" }) 
     <a
       href={href}
       onClick={onClick}
-      className={`${base} ${variant === "filled" ? filled : ghost} ${className}`}
+      className={`${base} ${sizeClasses} ${variant === "filled" ? filled : ghost} ${className}`}
       style={{ fontFamily: "'Raleway', sans-serif" }}
     >
       <span className="relative z-10">{label}</span>
@@ -513,25 +519,27 @@ export default function App() {
               transition={{ duration: 0.3 }}
               className="md:hidden absolute left-0 right-0 top-full flex justify-center px-3 pb-4"
             >
-              <nav className="w-full max-w-sm rounded-3xl border border-[#D8B27E]/40 bg-[#FAF8F5]/95 p-4 shadow-[0_12px_40px_rgba(0,0,0,0.1)]">
-                <div className="grid gap-3">
+              <nav className="w-full max-w-[260px] rounded-3xl border border-[#D8B27E]/40 bg-[#FAF8F5]/95 p-3 shadow-[0_12px_40px_rgba(0,0,0,0.1)] text-xs">
+                <div className="grid gap-2">
                   {navItems.map(([label, href]) => (
                     <NavButton
                       key={href}
                       href={`#${href}`}
                       label={label}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="w-full justify-center text-sm"
+                      className="w-full justify-center"
+                      size="compact"
                     />
                   ))}
                 </div>
-                <div className="mt-4">
+                <div className="mt-3">
                   <NavButton
                     href="#contact"
                     label="Связаться"
                     variant="filled"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full justify-center text-sm"
+                    className="w-full justify-center"
+                    size="compact"
                   />
                 </div>
               </nav>
