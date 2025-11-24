@@ -219,9 +219,9 @@ const PhotoShowcase = ({ photos }) => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.4, delay: idx * 0.05 }}
-        className="group relative min-w-[78%] flex-[0_0_auto] overflow-hidden rounded-3xl border border-[#D8B27E]/40 bg-white/60 shadow-[0_10px_35px_rgba(0,0,0,0.08)] sm:min-w-[280px] md:min-w-0"
+        className="relative min-w-[78%] flex-[0_0_auto] overflow-hidden rounded-3xl border border-[#D8B27E]/40 bg-white/60 shadow-[0_10px_35px_rgba(0,0,0,0.08)] sm:min-w-[280px] md:min-w-0"
       >
-        <FadeImage src={src} alt={caption} className="h-56 w-full object-cover transition duration-500 group-hover:scale-[1.03] sm:h-64" />
+        <FadeImage src={src} alt={caption} className="h-56 w-full object-cover sm:h-64" />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1F0F08]/80 via-[#1F0F08]/30 to-transparent p-4 text-[#FAF8F5]">
           <p className="text-sm font-semibold" style={{ fontFamily: "'Raleway', sans-serif" }}>
             {caption}
@@ -479,7 +479,7 @@ export default function App() {
         <Background />
 
       {/* Header / Nav */}
-      <header className="sticky top-0 z-40 border-b border-[#D8B27E]/40 backdrop-blur bg-[#FAF8F5]/80">
+      <header className="sticky top-0 z-40 border-b border-[#D8B27E]/40 backdrop-blur bg-[#FAF8F5]/80 relative">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
           <a href="#home" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
             <LogoMark />
@@ -498,7 +498,7 @@ export default function App() {
               className="md:hidden p-2 rounded-lg hover:bg-[#EFD8D0]/30 transition-colors"
               aria-label="Меню"
             >
-              {mobileMenuOpen ? <X className="h-6 w-6 text-[#7C3E2E]" /> : <Menu className="h-6 w-6 text-[#7C3E2E]" />}
+              {mobileMenuOpen ? <X className="h-7 w-7 text-[#7C3E2E]" /> : <Menu className="h-6 w-6 text-[#7C3E2E]" />}
             </button>
           </div>
         </div>
@@ -511,9 +511,9 @@ export default function App() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden border-t border-[#D8B27E]/40 bg-[#FAF8F5]/95 backdrop-blur"
+              className="md:hidden absolute left-0 right-0 top-full flex justify-center px-3 pb-4"
             >
-              <nav className="px-4 py-4 space-y-2">
+              <nav className="w-full max-w-sm rounded-3xl border border-[#D8B27E]/40 bg-[#FAF8F5]/95 p-4 shadow-[0_12px_40px_rgba(0,0,0,0.1)]">
                 <div className="grid gap-3">
                   {navItems.map(([label, href]) => (
                     <NavButton
@@ -521,17 +521,17 @@ export default function App() {
                       href={`#${href}`}
                       label={label}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="w-full justify-center"
+                      className="w-full justify-center text-sm"
                     />
                   ))}
                 </div>
-                <div className="px-4">
+                <div className="mt-4">
                   <NavButton
                     href="#contact"
                     label="Связаться"
                     variant="filled"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full justify-center"
+                    className="w-full justify-center text-sm"
                   />
                 </div>
               </nav>
@@ -775,9 +775,9 @@ export default function App() {
                 hidden: { opacity: 0, y: 24 },
                 show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: idx * 0.03 } },
               }}
-              className="group relative overflow-hidden rounded-2xl border border-[#D8B27E]/50 bg-white/70 shadow-[0_6px_24px_rgba(0,0,0,0.06)]"
+              className="relative overflow-hidden rounded-2xl border border-[#D8B27E]/50 bg-white/70 shadow-[0_6px_24px_rgba(0,0,0,0.06)]"
             >
-              <FadeImage src={src} alt={label} className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+              <FadeImage src={src} alt={label} className="aspect-[4/5] w-full object-cover" loading="lazy" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#2B1B12]/60 via-transparent to-transparent opacity-60" />
               <div className="absolute bottom-3 left-3 rounded-full bg-[#FAF8F5]/90 px-3 py-1 text-xs font-semibold text-[#7C3E2E] shadow">
                 {label}
