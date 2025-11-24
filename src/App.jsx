@@ -24,8 +24,8 @@ const fadeUp = {
 };
 
 const Section = ({ id, title, subtitle, children }) => (
-  <section id={id} className="scroll-mt-24 py-16 md:py-24">
-    <div className="mx-auto w-full max-w-6xl px-4">
+  <section id={id} className="scroll-mt-24 py-12 md:py-24">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
       <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={fadeUp}>
         {title && (
           <header className="mb-8 md:mb-12">
@@ -211,7 +211,7 @@ const LogoMark = () => (
 );
 
 const PhotoShowcase = ({ photos }) => (
-  <div className="grid gap-4 md:grid-cols-3">
+  <div className="flex gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:pb-0">
     {photos.map(({ src, caption }, idx) => (
       <motion.div
         key={src}
@@ -219,9 +219,9 @@ const PhotoShowcase = ({ photos }) => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.4, delay: idx * 0.05 }}
-        className="group relative overflow-hidden rounded-3xl border border-[#D8B27E]/40 bg-white/60 shadow-[0_10px_35px_rgba(0,0,0,0.08)]"
+        className="group relative min-w-[78%] flex-[0_0_auto] overflow-hidden rounded-3xl border border-[#D8B27E]/40 bg-white/60 shadow-[0_10px_35px_rgba(0,0,0,0.08)] sm:min-w-[280px] md:min-w-0"
       >
-        <FadeImage src={src} alt={caption} className="h-64 w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+        <FadeImage src={src} alt={caption} className="h-56 w-full object-cover transition duration-500 group-hover:scale-[1.03] sm:h-64" />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1F0F08]/80 via-[#1F0F08]/30 to-transparent p-4 text-[#FAF8F5]">
           <p className="text-sm font-semibold" style={{ fontFamily: "'Raleway', sans-serif" }}>
             {caption}
@@ -543,17 +543,17 @@ export default function App() {
       {/* Hero */}
       <section id="home" className="relative">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-10 px-4 py-12 md:grid-cols-2 md:py-20">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <h1 className="text-4xl md:text-5xl leading-tight text-[#444444]" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center md:text-left">
+            <h1 className="text-4xl leading-tight text-[#444444] md:text-5xl" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
               Рената Юнировна Давыдова
             </h1>
-            <p className="mt-4 text-base md:text-lg leading-relaxed">
+            <p className="mt-4 text-base leading-relaxed md:text-lg">
               Общественный деятель, учёный, популяризатор науки и организатор междисциплинарных проектов в сфере образования, культуры и патриотического воспитания молодёжи.
             </p>
             <p className="mt-6 text-[#7C3E2E] font-semibold" style={{ fontFamily: "'Raleway', sans-serif" }}>
               Моя миссия — напомнить, что женственность, культура и наука не противоположны, а дополняют друг друга, создавая новое качество жизни и мышления.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 md:justify-start">
               <a href="#about" className="rounded-full border border-[#D8B27E] bg-white/70 px-5 py-2 text-sm shadow hover:bg-[#EFD8D0]/30 transition-all hover:shadow-md">
                 Узнать больше
               </a>
@@ -561,7 +561,7 @@ export default function App() {
                 Присоединиться к проектам
               </a>
             </div>
-            <div className="mt-6">
+            <div className="mt-6 flex flex-wrap justify-center md:justify-start">
               {["Развитие", "Ответственность", "Культура", "Знание", "Любовь к Родине"].map((v) => (
                 <ValueChip key={v}>{v}</ValueChip>
               ))}
